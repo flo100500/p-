@@ -2,7 +2,7 @@ import sys
 
 class PPlusPlus:
     def __init__(self):
-        self.t = 0
+        self.nTabsPrev = 0
 
         arglen = len(sys.argv) - 1
         self.start = 0
@@ -16,46 +16,42 @@ class PPlusPlus:
 
     def compile(self, path):
         file = open(path, "r", encoding="utf8")
-        bytes = file.read()
-      
-            
-
+        fileStr = file.read()
         file.close()
 
         oPath = path[:-4] + "cpp"
         self.output = open(oPath, "w")
 
-        startL = True
-        tNum = 0
+        startLine = True
+        nTabs = 0
 
-        for byte in bytes:
-            match(byte):
+        for char in fileStr:
+            match(char):
                 case '\n':
-                    startL = True
-                    tNum = 0
+                    startLine = True
+                    nTabs = 0
                 case ' ':
-                    if startL: tNum =+ 1
+                    if startLine: nTabs =+ 1
                 case _:
-                    if startL: self.evaluateTabs(tNum)
-                    startL = False
+                    if startLine: self.evaluateTabs(nTabs)
+                    startLine = False
 
-            self.output.write(byte)
+            self.output.write(char)
             
-
         self.output.close()
 
-    def evaluateTabs(self, n):
-        diff = self.t - n
-        if(self.t > n): 
-            for i in range(diff):
+    def evaluateTabs(self, nTabs):
+        diff = self.nTabsPrev - nTabs
+        if(self.nTabsPrev > nTabs): 
+            for _ in range(diff):
                 self.output.write("}\n")
         else:
-            for i in range(-diff):
+            for _ in range(-diff):
                 self.output.write("{\n")
-                self.output.write("\t"*n)
+                self.output.write("\t"*nTabs)
 
-        self.t = n
+        self.nTabsPrev = nTabs
 
 if __name__ == "__main__":
     PPlusPlus()
-#EOF
+
