@@ -5,6 +5,9 @@ class PPlusPlus:
         self.t = 0
 
         arglen = len(sys.argv) - 1
+        self.start = 0
+        self.current = 0
+        self.line = 1
 
         if arglen > 1 or arglen == 0:
             print("Usage python pplusplus.py [File]")
@@ -14,6 +17,9 @@ class PPlusPlus:
     def compile(self, path):
         file = open(path, "r", encoding="utf8")
         bytes = file.read()
+      
+            
+
         file.close()
 
         oPath = path[:-4] + "cpp"
