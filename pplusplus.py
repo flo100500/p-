@@ -22,6 +22,14 @@ class PPlusPlus:
         oPath = path[:-4] + "cpp"
         self.output = open(oPath, "w")
 
+        allKeywords = ["#","(","{","}",")","//","if","else","class","goto","try","catch","EOF"]
+        tempList = list(fileStr.split("\n"))
+        for i in range (len(tempList)):
+            if any(word in tempList[i] for word in allKeywords):            
+                print(tempList[i])                            
+            else:
+                print(tempList[i]+";")
+        
         startLine = True
         nTabs = 0
 
