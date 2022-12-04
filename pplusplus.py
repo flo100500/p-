@@ -1,4 +1,5 @@
 import sys
+import re
 
 class PPlusPlus:
     def __init__(self):
@@ -24,6 +25,22 @@ class PPlusPlus:
 
         startLine, printChar = True, True
         nSpaces = 0
+
+        #creating a list with all keywords where we dont want semicolon at the end
+        allKeywords = ["#",";","(","{","}",")","===","//","if","else","class","goto","try","catch","EOF"]
+        #took the file and split it into a list
+        #all the elements in the list are a line
+        tempList = list(fileStr.split("\n"))
+        for i in range (len(tempList)):         
+            #if we find an empty line we skip it   
+            if (re.search("^\s*$", tempList[i])):
+                continue
+            #keyword match dont add semicolon
+            elif any(word in tempList[i] for word in allKeywords):            
+                print(tempList[i])                       
+            else:
+                #no match add semicolon
+                print(tempList[i]+";")
 
         for char in fileStr:
             printChar = True

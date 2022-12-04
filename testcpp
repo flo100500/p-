@@ -1,6 +1,15 @@
 #include <iostream>
 
 int main()
+<<<<<<< HEAD
+{
+    std::cout << "Hi";
+    return 0;
+}
+asasad
+
+//
+=======
 {
     if (Cond)
 	{
@@ -21,10 +30,6 @@ int main()
     return 0
     // EOF
 }
-<<<<<<< HEAD
-asasad
-
-//
-=======
-// File writen with P++
 >>>>>>> de7e21b79a780aabeefe0f82fde7ee305b352c06
+
+// File writen with P++
