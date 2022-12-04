@@ -30,34 +30,32 @@ class PPlusPlus:
 
     def addSemicolons(self, fileStr):
         #creating a list with all keywords where we dont want semicolon at the end
-        allKeywords = ["#",";", ":","{","}","//","if","else","class","goto","try","catch"]
+        allKeywords = ["#",";","{","}","//","if","else","class","goto","try","catch"]
         #took the file and split it into a list
         #all the elements in the list are a line
         fileList = list(fileStr.split("\n"))
         output = ""
         for line in fileList:
+            comment = ""
             #few different cases to add semicolons
-            for j in range(len(line)):
-                #if the line itself starts with a comment                
-                if(line[0] == '/' and line[1] == '/'):                
-                    break             
+            for j in range(len(line) - 1):       
                 #if there is a comment within a line
-                if (line[j] == '/' and line[j+1] == '/' and line[j+2] != '/'):                
-                    line = line[:j]+";"+line[j:]
-                    print(line)
+                if (line[j] == '/' and line[j+1] == '/'):
+                    comment = line[j:]                
+                    line = line[:j]
                     break
 
             #if we find an empty line we skip it   
             if (re.search("^\s*$", line)):
-                continue
+                pass
             #keyword match dont add semicolon
             elif any(word in line for word in allKeywords):            
-                output += line                  
+                output += line                 
             else:
                 #no match add semicolon                
                 output += line + ";"
 
-            output += "\n"
+            output += comment + "\n"
 
         return output
     
@@ -80,22 +78,34 @@ class PPlusPlus:
         startLine, printChar = True, True
         nSpaces = 0
         output = ""
+        Slash = False
+        comment = False
 
         for char in fileStr:
             printChar = True
+            if comment and char != '\n':
+                output += char
+                continue
             match(char):
                 case '\n':
                     startLine = True
                     nSpaces = 0
+                    Slash = False
+                    comment = False
                 case ' ':
                     if startLine:
                         nSpaces += 1
                         printChar = False
+                    Slash = False
+                case '/':
+                    if Slash: comment = True
+                    Slash = True
                 case _:
                     if startLine: 
                         output = self.evaluateTabs(int(nSpaces/4), output)
                         output += " "*nSpaces
                         startLine = False
+                    Slash = False
 
             if printChar: output += char
 
