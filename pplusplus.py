@@ -35,7 +35,18 @@ class PPlusPlus:
         #all the elements in the list are a line
         fileList = list(fileStr.split("\n"))
         output = ""
-        for line in fileList:         
+        for line in fileList:
+            #few different cases to add semicolons
+            for j in range(len(line)):
+                #if the line itself starts with a comment                
+                if(line[0] == '/' and line[1] == '/'):                
+                    break             
+                #if there is a comment within a line
+                if (line[j] == '/' and line[j+1] == '/' and line[j+2] != '/'):                
+                    line = line[:j]+";"+line[j:]
+                    print(line)
+                    break
+
             #if we find an empty line we skip it   
             if (re.search("^\s*$", line)):
                 continue
@@ -43,7 +54,7 @@ class PPlusPlus:
             elif any(word in line for word in allKeywords):            
                 output += line                  
             else:
-                #no match add semicolon
+                #no match add semicolon                
                 output += line + ";"
 
             output += "\n"
