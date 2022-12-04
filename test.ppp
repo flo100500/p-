@@ -1,13 +1,10 @@
 #include <iostream>
 
 int main()
-<<<<<<< HEAD
     std::cout << "Hi";
     return 0;
 asasad
 
-//
-=======
     if (Cond)
         1
     else
@@ -17,5 +14,3 @@ asasad
             3
     
     return 0
-    // EOF
->>>>>>> de7e21b79a780aabeefe0f82fde7ee305b352c06

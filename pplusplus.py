@@ -20,7 +20,7 @@ class PPlusPlus:
         fileStr = file.read() + "\n// File writen with P++"
         file.close()
 
-        oPath = path[:-4] + "cpp"
+        oPath = path[:-3] + "cpp"
         self.output = open(oPath, "w")
 
         startLine, printChar = True, True
@@ -31,16 +31,19 @@ class PPlusPlus:
         #took the file and split it into a list
         #all the elements in the list are a line
         tempList = list(fileStr.split("\n"))
+        fileStr = ""
         for i in range (len(tempList)):         
             #if we find an empty line we skip it   
             if (re.search("^\s*$", tempList[i])):
                 continue
             #keyword match dont add semicolon
             elif any(word in tempList[i] for word in allKeywords):            
-                print(tempList[i])                       
+                fileStr += tempList[i]                  
             else:
                 #no match add semicolon
-                print(tempList[i]+";")
+                fileStr += tempList[i] + ";"
+
+            fileStr += "\n"
 
         for char in fileStr:
             printChar = True
