@@ -23,27 +23,10 @@ class PPlusPlus:
         oPath = path[:-3] + "cpp"
         self.output = open(oPath, "w")
 
+        fileStr = self.addSemicolons(fileStr)
+
         startLine, printChar = True, True
         nSpaces = 0
-
-        #creating a list with all keywords where we dont want semicolon at the end
-        allKeywords = ["#",";","(","{","}",")","===","//","if","else","class","goto","try","catch","EOF"]
-        #took the file and split it into a list
-        #all the elements in the list are a line
-        tempList = list(fileStr.split("\n"))
-        fileStr = ""
-        for i in range (len(tempList)):         
-            #if we find an empty line we skip it   
-            if (re.search("^\s*$", tempList[i])):
-                continue
-            #keyword match dont add semicolon
-            elif any(word in tempList[i] for word in allKeywords):            
-                fileStr += tempList[i]                  
-            else:
-                #no match add semicolon
-                fileStr += tempList[i] + ";"
-
-            fileStr += "\n"
 
         for char in fileStr:
             printChar = True
@@ -79,6 +62,28 @@ class PPlusPlus:
                 self.output.write("{\n")
 
         self.nTabsPrev = nTabs
+
+    def addSemicolons(self, fileStr):
+        #creating a list with all keywords where we dont want semicolon at the end
+        allKeywords = ["#",";","(","{","}",")","===","//","if","else","class","goto","try","catch","EOF"]
+        #took the file and split it into a list
+        #all the elements in the list are a line
+        fileList = list(fileStr.split("\n"))
+        output = ""
+        for line in fileList:         
+            #if we find an empty line we skip it   
+            if (re.search("^\s*$", line)):
+                continue
+            #keyword match dont add semicolon
+            elif any(word in line for word in allKeywords):            
+                output += line                  
+            else:
+                #no match add semicolon
+                output += line + ";"
+
+            output += "\n"
+
+        return output
 
 if __name__ == "__main__":
     PPlusPlus()
