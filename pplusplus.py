@@ -20,52 +20,17 @@ class PPlusPlus:
         fileStr = file.read() + "\n// File writen with P++"
         file.close()
 
-        oPath = path[:-3] + "cpp"
-        self.output = open(oPath, "w")
-
         fileStr = self.addSemicolons(fileStr)
+        fileStr = self.addCurlyBrackets(fileStr)
 
-        startLine, printChar = True, True
-        nSpaces = 0
-
-        for char in fileStr:
-            printChar = True
-            match(char):
-                case '\n':
-                    startLine = True
-                    nSpaces = 0
-                case ' ':
-                    if startLine:
-                        nSpaces += 1
-                        printChar = False
-                case _:
-                    if startLine: 
-                        self.evaluateTabs(int(nSpaces/4))
-                        self.output.write(" "*nSpaces)
-                        startLine = False
-
-            if printChar: self.output.write(char)
-            
-        self.output.close()
-
-    def evaluateTabs(self, nTabs):
-        diff = self.nTabsPrev - nTabs
-        if(self.nTabsPrev > nTabs): 
-            for i in range(diff):
-                self.output.write("\t"*(self.nTabsPrev-1-i))
-                self.output.write("}\n")
-
-
-        else:
-            for _ in range(-diff):
-                self.output.write("\t"*(nTabs-1))
-                self.output.write("{\n")
-
-        self.nTabsPrev = nTabs
+        oPath = path[:-3] + "cpp"
+        output = open(oPath, "w")
+        output.write(fileStr)
+        output.close()
 
     def addSemicolons(self, fileStr):
         #creating a list with all keywords where we dont want semicolon at the end
-        allKeywords = ["#",";","(","{","}",")","===","//","if","else","class","goto","try","catch","EOF"]
+        allKeywords = ["#",";", ":","{","}","//","if","else","class","goto","try","catch"]
         #took the file and split it into a list
         #all the elements in the list are a line
         fileList = list(fileStr.split("\n"))
@@ -84,6 +49,48 @@ class PPlusPlus:
             output += "\n"
 
         return output
+    
+    def evaluateTabs(self, nTabs, output):
+        diff = self.nTabsPrev - nTabs
+        if(self.nTabsPrev > nTabs): 
+            for i in range(diff):
+                output += "\t"*(self.nTabsPrev-1-i)
+                output += "}\n"
+
+        else:
+            for _ in range(-diff):
+                output += "\t"*(nTabs-1)
+                output += "{\n"
+
+        self.nTabsPrev = nTabs
+        return output
+
+    def addCurlyBrackets(self, fileStr):
+        startLine, printChar = True, True
+        nSpaces = 0
+        output = ""
+
+        for char in fileStr:
+            printChar = True
+            match(char):
+                case '\n':
+                    startLine = True
+                    nSpaces = 0
+                case ' ':
+                    if startLine:
+                        nSpaces += 1
+                        printChar = False
+                case _:
+                    if startLine: 
+                        output = self.evaluateTabs(int(nSpaces/4), output)
+                        output += " "*nSpaces
+                        startLine = False
+
+            if printChar: output += char
+
+        return output
+
+        
 
 if __name__ == "__main__":
     PPlusPlus()

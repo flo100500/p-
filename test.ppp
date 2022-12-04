@@ -14,3 +14,6 @@ asasad
             3
     
     return 0
+
+int a = (x + 5)
+std::cout << a // Comment
