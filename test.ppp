@@ -1,8 +1,8 @@
 #include <iostream>
 
 int main()
-    std::cout << "Hi";
-    return 0;
+        std::cout << "Hi";
+        return 0;
 asasad
 
     if (Cond)
@@ -17,4 +17,6 @@ asasad
    
 int a = (x + 5)
 std::cout << a // Comment
-class
+class Name
+    Name
+        pass
