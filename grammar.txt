@@ -11,20 +11,22 @@ block-statement = ("\t" (statement)*)* | "{" (statement)* "}"
 declaration-statement = type identifier ["=" expression] [";"] | fuction-declaration
                         | class-declaration
 
-selection-statement = (if-statement)* | switch-statement
+selection-statement = if-statement | switch-statement
 
 if-statement = "if" ( expression | "(" expression ")" ) statement [ "else" statement ]
 
-update-statement = "var-name" expression "=" expression| "var-name"++ 
-       | "var-name"-- | ++"var-name" | --"var-name"
+update-statement = identifier "=" expression| identifier "++" 
+       | identifier "--" | "++" identifier | "--" identifier
 
-iteration-statement = while-loop | for-loop
+iteration-statement = while-loop | do-while-loop | for-loop
 
-try-statement = "try" (statement)* "catch" (statement)*
+try-statement = "try" statement "catch" (expression | "(" expression ")" ) statement
 
-while-loop = "while" ( expression | "( expression ")" )  statement
+while-loop = "while" ( expression | "(" expression ")" )  statement
 
-for-loop = "for" ( statement ";" expression ";" statement ) block-statement                        
+do-while-loop = "do" statement "while" (expression  | "(" expression ")" )
+
+for-loop = "for" ( "(" (statement | ";" ) expression ";" expression ")" | (statement | ";") expression ";" expression ) statement                      
 
 jump-statement = "break" | "continue" | "return" [expression] | "goto" label
 
@@ -45,9 +47,9 @@ number = digits | digits "." [digits]
 
 digits = (digit)+
 
-string = '"' (letter | digit)* '"'
+string = '"' (letter | digit | symbol)* '"'
 
-char = "'" (letter | digit) "'"
+char = "'" (letter | digit | symbol) "'"
 
 identifier = letter | identifier letter | identifier digit
 
