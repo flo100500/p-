@@ -1,24 +1,56 @@
 programm = (statement)*
+
 statement = (labeled-statement | block-statement | declaration-statement 
-            | selection-statement | iteration-statement | jump-statement |
+            | selection-statement | iteration-statement | update-statement | jump-statement |
             | expression | try-block) [";"]
+
 labeled-statement = label statement
+
 block-statement = ("\t" (statement)*)* | "{" (statement)* "}"
+
 declaration-statement = type identifier ["=" expression] [";"] | fuction-declaration
                         | class-declaration
+
+selection-statement = (if-statement)* | switch-statement
+
+if-statement = "if" ( expression | "(" expression ")" ) statement [ "else" statement ]
+
+update-statement = "var-name" expression "=" expression| "var-name"++ 
+       | "var-name"-- | ++"var-name" | --"var-name"
+
+iteration-statement = while-loop | for-loop
+
+try-statement = "try" (statement)* "catch" (statement)*
+
+while-loop = "while" ( expression | "( expression ")" )  statement
+
+for-loop = "for" ( statement ";" expression ";" statement ) block-statement                        
+
+jump-statement = "break" | "continue" | "return" [expression] | "goto" label
+
 function-declaration = type identifier ("(" paramters ")" | paramters ) [block-statement | ";"]
+
 class-declaration = "class" Identifier [":" [access-specifiers] Identifier] class-body
 
 access-specifiers = "private" | "public" | "protected"
+
 paramters = type identifier [= (number | string | char | NULL)] ["," paramters]
+
 expression = assignment-expression | increment-decrement | arthmetric-expression
             | logical-expression | comparison-expression | member-access | other
+
 label = identifier ":" | "case" constexpr ":" | "default" ":"
+
 number = digits | digits "." [digits]
+
 digits = (digit)+
+
 string = '"' (letter | digit)* '"'
+
 char = "'" (letter | digit) "'"
+
 identifier = letter | identifier letter | identifier digit
+
 letter = "A" | "B" | "C" | "D" | "E" | "F" | "G"
        | "H" | "I" | "J" | "K" | "L" | "M" | "N"
        | "O" | "P" | "Q" | "R" | "S" | "T" | "U"
@@ -27,8 +59,9 @@ letter = "A" | "B" | "C" | "D" | "E" | "F" | "G"
        | "j" | "k" | "l" | "m" | "n" | "o" | "p"
        | "q" | "r" | "s" | "t" | "u" | "v" | "w"
        | "x" | "y" | "z"
+
 digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 
 
-if-statement = "if" ( expression | "(" expression ")" ) statement [ "else" statement ]
+
 
