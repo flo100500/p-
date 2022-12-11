@@ -37,7 +37,7 @@ class PPlusPlus:
     
     def addSemicolons(self, line):
         #creating a list with all keywords where we dont want semicolon at the end
-        allKeywords = ["#",";","{","}","if","else","class","goto","try","catch"]
+        allKeywords = ["#",";","{","}","if","else","main","class","goto","try","catch"]
 
         output, comment = "", ""
         #few different cases to add semicolons
