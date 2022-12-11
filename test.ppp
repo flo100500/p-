@@ -5,10 +5,10 @@ int main()
         return 0;
 asasad
 
-    if (Cond)
+    if Cond
         1
     else
-        if (Cond 2)
+        if Cond 
             2
         else
             3
