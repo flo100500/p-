@@ -2,7 +2,7 @@ programm = (statement)*
 
 statement = (labeled-statement | block-statement | declaration-statement 
             | selection-statement | iteration-statement | update-statement | jump-statement |
-            | expression | try-block) [";"]
+            | expression | try-statement) [";"]
 
 labeled-statement = label statement
 
@@ -11,45 +11,55 @@ block-statement = ("\t" (statement)*)* | "{" (statement)* "}"
 declaration-statement = type identifier ["=" expression] [";"] | fuction-declaration
                         | class-declaration
 
-selection-statement = (if-statement)* | switch-statement
+selection-statement = if-statement | switch-statement
 
-if-statement = "if" ( expression | "(" expression ")" ) statement [ "else" statement ]
+iteration-statement = while-loop | do-while-loop | for-loop
 
-update-statement = "var-name" expression "=" expression| "var-name"++ 
-       | "var-name"-- | ++"var-name" | --"var-name"
-
-iteration-statement = while-loop | for-loop
-
-try-statement = "try" (statement)* "catch" (statement)*
-
-while-loop = "while" ( expression | "( expression ")" )  statement
-
-for-loop = "for" ( statement ";" expression ";" statement ) block-statement                        
+update-statement = identifier "=" expression| identifier "++"  ###### false we have a increment-decrement expression
+       | identifier "--" | "++" identifier | "--" identifier
 
 jump-statement = "break" | "continue" | "return" [expression] | "goto" label
+
+expression = assignment-expression | increment-decrement | arithmetric-expression
+            | logical-expression | comparison-expression | member-access | other-expressions
+
+try-statement = "try" statement "catch" (expression | "(" expression ")" ) statement
+
+label = identifier ":" | "case" constexpr ":" | "default" ":"
+
+type =
+
+identifier = letter | identifier letter | identifier digit
 
 function-declaration = type identifier ("(" paramters ")" | paramters ) [block-statement | ";"]
 
 class-declaration = "class" Identifier [":" [access-specifiers] Identifier] class-body
 
-access-specifiers = "private" | "public" | "protected"
+if-statement = "if" ( expression | "(" expression ")" ) statement [ "else" statement ]
 
-paramters = type identifier [= (number | string | char | NULL)] ["," paramters]
+switch-statement = 
 
-expression = assignment-expression | increment-decrement | arthmetric-expression
-            | logical-expression | comparison-expression | member-access | other
+while-loop = "while" ( expression | "(" expression ")" )  statement
 
-label = identifier ":" | "case" constexpr ":" | "default" ":"
+do-while-loop = "do" statement "while" (expression  | "(" expression ")" )
 
-number = digits | digits "." [digits]
+for-loop = "for" ( "(" (statement | ";" ) expression ";" expression ")" | (statement | ";") expression ";" expression ) statement
 
-digits = (digit)+
+assignment-expression =
 
-string = '"' (letter | digit)* '"'
+increment-decrement =
 
-char = "'" (letter | digit) "'"
+arithmetric-expression =
 
-identifier = letter | identifier letter | identifier digit
+logical-expression =
+
+comparison-expression =
+
+member-access =
+
+other-expressions = 
+
+constexpr =
 
 letter = "A" | "B" | "C" | "D" | "E" | "F" | "G"
        | "H" | "I" | "J" | "K" | "L" | "M" | "N"
@@ -62,6 +72,18 @@ letter = "A" | "B" | "C" | "D" | "E" | "F" | "G"
 
 digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 
+paramters = type identifier [= (number | string | char | NULL)] ["," paramters]
 
+access-specifiers = "private" | "public" | "protected"
+
+class-body = 
+
+number = digits | digits "." [digits]
+
+string = '"' (letter | digit | symbol)* '"'
+
+char = "'" (letter | digit | symbol) "'"
+
+digits = (digit)+
 
 
