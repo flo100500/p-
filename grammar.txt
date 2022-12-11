@@ -1,43 +1,40 @@
 programm = (statement)*
 
 statement = (labeled-statement | block-statement | declaration-statement 
-            | selection-statement | iteration-statement | update-statement | jump-statement |
+            | selection-statement | iteration-statement | jump-statement |
             | expression | try-statement) [";"]
 
 labeled-statement = label statement
 
 block-statement = ("\t" (statement)*)* | "{" (statement)* "}"
 
-declaration-statement = type identifier ["=" expression] [";"] | fuction-declaration
+declaration-statement = type identifier ["=" expression] [";"] | function-declaration
                         | class-declaration
 
 selection-statement = if-statement | switch-statement
 
 iteration-statement = while-loop | do-while-loop | for-loop
 
-update-statement = identifier "=" expression| identifier "++"  ###### false we have a increment-decrement expression
-       | identifier "--" | "++" identifier | "--" identifier
-
 jump-statement = "break" | "continue" | "return" [expression] | "goto" label
 
-expression = assignment-expression | increment-decrement | arithmetric-expression
+expression = assignment-expression | increment-decrement | arithmetic-expression
             | logical-expression | comparison-expression | member-access | other-expressions
 
 try-statement = "try" statement "catch" (expression | "(" expression ")" ) statement
 
 label = identifier ":" | "case" constexpr ":" | "default" ":"
 
-type =
+type = ["unsigned"] ( "int" | "bool" | "char" | "float" | "double" | identifier) ("*" | "&")*
 
 identifier = letter | identifier letter | identifier digit
 
-function-declaration = type identifier ("(" paramters ")" | paramters ) [block-statement | ";"]
+function-declaration = type identifier [ "(" paramters ")" | paramters ] [block-statement | ";"]
 
 class-declaration = "class" Identifier [":" [access-specifiers] Identifier] class-body
 
 if-statement = "if" ( expression | "(" expression ")" ) statement [ "else" statement ]
 
-switch-statement = 
+switch-statement = "switch" ( expression | "(" expression ")" ) block-statement
 
 while-loop = "while" ( expression | "(" expression ")" )  statement
 
@@ -45,21 +42,22 @@ do-while-loop = "do" statement "while" (expression  | "(" expression ")" )
 
 for-loop = "for" ( "(" (statement | ";" ) expression ";" expression ")" | (statement | ";") expression ";" expression ) statement
 
-assignment-expression =
+assignment-expression = expression assignment-operator expression
 
-increment-decrement =
+increment-decrement = expression "++" | expression "--" | "++" expression | "--" expression
 
-arithmetric-expression =
+arithmetic-expression = "+" expression | "-" expression | expression arithmetic-operator expression
 
-logical-expression =
+logical-expression = ( "!" | "not" ) expression | expression ("&&" | "and" | "||" | "or" ) expression
 
-comparison-expression =
+comparison-expression = expression ( "==" | "!=" | "<" | ">" | "<=" ">=" | "<=>" ) expression
 
-member-access =
+member-access = expression "[" expression "]" | "*" expression | "&" expression | expression "." expression
+                     | expression "->" expression | expression ".*" expression | expression "->*" expression
 
-other-expressions = 
+other-expressions = function-call | comma-expression | conditional-operator
 
-constexpr =
+constexpr = "constexpr" expression | char | string | number
 
 letter = "A" | "B" | "C" | "D" | "E" | "F" | "G"
        | "H" | "I" | "J" | "K" | "L" | "M" | "N"
@@ -72,18 +70,32 @@ letter = "A" | "B" | "C" | "D" | "E" | "F" | "G"
 
 digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 
-paramters = type identifier [= (number | string | char | NULL)] ["," paramters]
+paramters = type identifier [= ( number | string | char | "NULL" )] ["," paramters]
 
 access-specifiers = "private" | "public" | "protected"
 
-class-body = 
+class-body = ("\t" (class-member)*)* | "{" (class-member)* "}"
+
+class-member = constructor | destructor | access-specifiers ":" | function-declaration
+
+assignment-operator = "=" | "+=" | "-" | "*=" | "/=" | "%=" | "&=" | "|=" | "^=" | "<<=" | ">>="
+
+arithmetic-operator = "+" | "-" | "*" | "/" | "%" | "~" | "&" | "|" | "^" | "<<" | ">>"
+
+function-call = expression [ "(" expression ")" | expression ] | expression "'" expression expression
+
+comma-expression = expression [ "," expression ]
+
+conditional-operator = expression "?" expression ":" expression
 
 number = digits | digits "." [digits]
 
-string = '"' (letter | digit | symbol)* '"'
+string = '"' (ascii-character)* '"' | "f" '"' (ascii-character)* '"'
 
-char = "'" (letter | digit | symbol) "'"
+char = "'" ascii-character "'"
 
 digits = (digit)+
+
+ascii-character = 1...255 
 
 
